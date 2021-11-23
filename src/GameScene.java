@@ -139,6 +139,7 @@ public class GameScene extends Scene {
                                        playsound("mort.mp3.mp3");
                                        clip.stop();
                                         primaryStage.setScene(Startscene);
+                                        //hello
                                         System.out.println("bakana");}
                                     Hit=false;
                                  }
