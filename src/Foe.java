@@ -2,6 +2,8 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.shape.Rectangle;
 
 public class Foe extends AnimatedThing{
+
+    //un autre exemple de polymorphisme en Java en considérant qu'un ennemi est avant tout un objet animé sur la scene on peut directemetn récupérer les caractéristique de cette classe
     protected double xf;
     protected double yf;
     protected double vf=0;
@@ -22,7 +24,7 @@ public class Foe extends AnimatedThing{
     }
     public void update(long time) {
 
-
+//ce code sert à l'animation des ennemis
             ie++;
             if (ie < lastIndexe) {
                 LargeurWe = ie * 80;
@@ -35,6 +37,7 @@ public class Foe extends AnimatedThing{
     }
     public void update2(long time) {
         xf=xf-vf;
+        //-vf les ennemis se deplacent vers la droite
         Spritehero.setX(xf);
         HitBoxF.setX(10+Spritehero.getX());
         HitBoxF.setY(10+Spritehero.getY());

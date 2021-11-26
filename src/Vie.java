@@ -7,8 +7,10 @@ public class Vie extends AnimatedThing{
     Vie(double x, double y, String fileName) {
         super(x, y, fileName);
         Spritehero.setViewport(new Rectangle2D(0,0,120,120));
+        //on affiche les 3 <3
     }
-    public void update(long time) {
+    public void update(long time) //on découpe notre image en foction des Hit recus
+    {
         GameScene.setNumberOfLives(GameScene.getNumberOfLives()   - 1);
         System.out.println("Il vous reste " + GameScene.getNumberOfLives() + " points de vie");
 

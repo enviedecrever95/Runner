@@ -15,45 +15,50 @@ import java.util.Random;
 
 public class GameScene extends Scene {
 
-    private StaticThing left;
-    private int manu=1;
-    private boolean Hit=false;
-    private boolean mort=false;
+    private StaticThing left;//partie gauche de notre background
     private StaticThing right;
-    public Hero hero;
-    private double duration = 100;
+    private int manu=1;
+    private boolean Hit=false; //booléen pour savoir si on se fait toucher
+    public Hero hero; // notre game scene a besoin d'un heros, on le déclare
+
+    private double duration = 100;// on déclare des durée entre deux action
     private double duration2 = 50;
     private Camera camera;
-    MediaPlayer mediaplayer;
-    AudioClip clip;
+    MediaPlayer mediaplayer; // la classe média player s'avère plus efficace pour des "sons court"
+    AudioClip clip;//pour une muisque de fond il vaut mieux utiliser des audioclip en parrallele avec des mediaplayer
     String filename="back.png";
-    protected Vie life;
-    private ArrayList<Foe> FoeList;
-    private Parent parent;
-    int inv=1;
-    protected int j=0;
+    protected Vie life; // que serait la scene sans la vie de notre personnage
+    private ArrayList<Foe> FoeList; // on déclare la liste qui doit contenir nos ennemis
+    protected int inv=1; // 1 nous sommes invincible 0 nous ne le sommes plus
+    protected int j=0;//des indices d'incrémentation
     protected int j2=0;
-    private static int NumberOfLives;
-    protected int NbEnnemi=50;
-    protected Random rdn;
-    protected JFrame f;
+    private static int NumberOfLives;//le nombre de vie
+    protected int NbEnnemi=50;//le nombre d'ennemis
+    protected Random rdn;//pour ajouter un peu de vie au jeux ajouton du hasard via la classe Random
+    protected JFrame f;//Les Jframe permettes d'ouvrir des images inépendantes à la scene je garde ça pour le projet...
+
+
     protected Stage primaryStage;
     protected Scene Startscene;
-    protected Group root;
+    protected Group root; //on va relancé une scene dés que nos pt de vie =0 on abesoin de déclarer un root dans notre game scene
+
+
     public GameScene(Parent parent, double HEIGHT, double WIDTH, Stage primaryStage,Scene StartScene,Group root) {
         super(parent, HEIGHT, WIDTH);
         this.right = new StaticThing(800, 0, this.filename);
         this.left = new StaticThing(0, 0, this.filename);
-        this.parent = parent;
         this.primaryStage=primaryStage;
         this.Startscene=StartScene;
         this.root=root;
         FoeList =new ArrayList<Foe>();
+        //important de déclarer ce tableau sinon le compilateur le considerera comm NULL => error
 
-        for(int j=0;j<NbEnnemi;j++){
+        for(int j=0;j<NbEnnemi;j++)//on remplit notre liste d'ennemis
+        {
             rdn=new Random();
             FoeList.add(new Foe(600+j*500+rdn.nextInt(5)*100, 250, "jotacap.png"));
         }
+
         this.hero = new Hero(178, 100, "sprite3.png");
         this.camera=new Camera(hero.getX(),hero.getY(),hero);
         NumberOfLives=3;
@@ -68,9 +73,11 @@ public class GameScene extends Scene {
 
     }
 
-    Long lastT = new Long(System.nanoTime());
+    Long lastT = new Long(System.nanoTime());// cette méthode permet de renvoyé l'instant à laquelle on l'appelle on peut ainsi déterminé une durée entre deux instant
     Long lastT2 = new Long(System.nanoTime());
     Long lastT3 = new Long(System.nanoTime());
+
+
 
     //il s'agit de variable qui correspondent à l'instant t à laquelle on les lit
     AnimationTimer timer3 = new AnimationTimer() {
@@ -90,14 +97,17 @@ public class GameScene extends Scene {
                 if (diff >= duration / 1.4) {
                     lastT.l = time;
                         for(int j=0;j<FoeList.size();j++){
+
                             if (hero.getZawardo()==0) {
+                                //si on n'est pas en pause  (ZAWARDO =0) l'update d'animation de nos ennemis se fait normalement
                                 FoeList.get(j).update(time);
                             }
                             else{
+                                // si on est en pause (ZAWARDO =1 ) nos ennemis sont figés
                                 FoeList.get(j).freeze();
                             }
                     }
-                    hero.update(time);
+                    hero.update(time); //update d'animation du heros
                 }
         }
     };
@@ -107,10 +117,13 @@ public class GameScene extends Scene {
                 long diff2 = (time2 - lastT2.l) / 1000000;
 
                      if (diff2 <= 50) {
-                         if(hero.getVxx()>0 & hero.getStart()==1) {
+                         if(hero.getVxx()>0 & hero.getStart()==1) //permet de lancé la musique dés que notre héros part
+                         {
                              playsoundinf("bana.mp3");
+
                              hero.setStart(0);
                          }
+
                          hero.update2(diff2);
                          for(int j2=0;j2<FoeList.size();j2++){
                              FoeList.get(j2).update2(diff2);
@@ -121,8 +134,9 @@ public class GameScene extends Scene {
                                  if(Hit==true){
                                     life.update(diff2);
                                     if(NumberOfLives==0){
+                                        //le code ci dessous sert à générer des fenetre de facon a léatire lorsque nous mourrons
 
-                                     /*  for (int n=0;n<20;n++) {
+                                        /*  for (int n=0;n<20;n++) {
                                           Icon icon = new ImageIcon("dioanim.gif");
                                           JLabel label = new JLabel(icon);
                                          f = new JFrame("IMPOSSIBLE!!!");
@@ -135,12 +149,12 @@ public class GameScene extends Scene {
                                              f.setResizable(false);
                                             f.setVisible(true);
                                                 }*/
-                                        this.stop();
+                                        this.stop(); //arret de la gamescene
                                        playsound("mort.mp3.mp3");
                                        clip.stop();
-                                        primaryStage.setScene(Startscene);
-                                        //hello
-                                        System.out.println("bakana");}
+                                        primaryStage.setScene(Startscene);//on reset la scene
+
+                                        ;}
                                     Hit=false;
 
                                  }
@@ -148,17 +162,23 @@ public class GameScene extends Scene {
                          }
                          if( hero.getVxx()>=8 & manu==1){
                              playsound("manukega.mp3.mp3");
-                             manu=0;}
-                         if(hero.getY()>=248 & hero.getSaut()==1){
-                             playsound("sol.mp3");
+                             manu=0;}//quand on atteint une certaine vitesse le hreos se met à courir
+
+
+                         if(hero.getY()>=248 & hero.getSaut()==1)//qand le heros touche le sol
+                         {
+
+                             playsound("sol.mp3");//bruit du sol
                              hero.setSaut(0);
-                             hero.setDoubleSaut(2);
+                             hero.setDoubleSaut(2);//on récupère le double saut
                          }
                          camera.update(diff2);
+                         //le défilement de l'image est effectué ici :
                          left.getImgv().setViewport(new Rectangle2D(camera.getX() % 800, 0, 800, 800));
                          right.getImgv().setX(800 - camera.getX() % 800);
+
                      }
-                lastT2.l = time2;
+                lastT2.l = time2; //important de recrée un t actuelle pour pouvoir redeterminer une durée
 
 
             }};

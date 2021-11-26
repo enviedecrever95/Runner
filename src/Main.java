@@ -40,7 +40,7 @@ public class Main extends Application {
 
                scene.getClip().stop();
                Group root = new Group();
-               GameScene scene1 = new GameScene(root,800,400,primaryStage,scene,root);
+               GameScene scene1 = new GameScene(root,800,400,primaryStage,scene,root);//pour pouvoir reset la scene on met notre start secen en argumant
                //scene1.getFrame().removeAll();
                root.getChildren().add(scene1.getRight().getImgv());
                root.getChildren().add(scene1.getLeft().getImgv());
@@ -58,13 +58,15 @@ public class Main extends Application {
                primaryStage.setScene(scene1);
 
                scene1.addEventHandler(KeyEvent.KEY_PRESSED, (key) -> {
-                   if(key.getCode()== KeyCode.SPACE) {
+                   if(key.getCode()== KeyCode.SPACE) //on appuie sur Barre espace on saute (double saut)
+                   {
                        if(scene1.getHero().getDoubleSaut()>0) {
                            scene1.getHero().jump();
                            scene1.playsound("shine.mp3.mp3");
                        }
                    }
-                   if(key.getCode()== KeyCode.Z) {
+                   if(key.getCode()== KeyCode.Z)// appuie sur Z= fond passe en négatif les enemis sont figés et notre héros s'arrete
+                   {
                        scene1.setNeg();
                        root.getChildren().removeAll();
                        root.getChildren().clear();
@@ -84,7 +86,9 @@ public class Main extends Application {
                        scene1.getHero().setStart(1);
                        scene1.getHero().setZawardo(1);
                    }
-                   if(key.getCode()== KeyCode.S) {
+                   if(key.getCode()== KeyCode.S) // S comme speed pour faire gagner de la vitesse à notre heros
+
+                   {
                        scene1.getHero().setVx(scene1.getHero().getVxx() + 3);
                         if(scene1.getHero().getZawardo()==1) {
                             scene1.setPosi();
@@ -121,16 +125,3 @@ public class Main extends Application {
 
 
 
- /*for (int n=0;n<4;n++) {
-        Icon icon = new ImageIcon("C:\\Users\\nordi\\IdeaProjects\\Hello\\images\\diodead.gif");
-        JLabel label = new JLabel(icon);
-        JFrame f = new JFrame("anim");
-        int x=(int) Math.random()*10;
-        int y=(int) Math.random()*10;
-        f.setLocation(300,300);
-        f.getContentPane().add(label);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.pack();
-        f.setResizable(false);
-        f.setVisible(true);
-        }*/

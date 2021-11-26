@@ -39,7 +39,10 @@ public class Hero extends AnimatedThing {
     }
 
     public void update(long time) {
-            if (ay>0 & yh<250 & yh>230){
+
+        //ici on affiche des sprites différentes en fonction de son altitude lorsque notre heros saute
+            if (ay>0 & yh<250 & yh>230)
+            {
                 Spritehero.setViewport(new Rectangle2D(12,260,120,120));
             }
             if (ay>0 & yh<=230 & yh>=190){
@@ -49,12 +52,16 @@ public class Hero extends AnimatedThing {
                 Spritehero.setViewport(new Rectangle2D(120+132,240,120,150));
          }
 
-            if (vx<8 & yh>=250 ) {
+
+            if (vx<8 & yh>=250 ) //la varible speed sert à modifier la hitbox du heros slon qu'il cour ou marche
+            {
                 speed=0;
             }
             if (vx>=8 & yh>=250) {
                 speed=1;
             i++;
+
+            //les codes suivants concerne l'animation du héros
             if (i < lastIndex) {
                 LargeurW = i * 120;
                 Spritehero.setViewport(new Rectangle2D(2 + LargeurW, 120, 119, 120));
@@ -99,7 +106,8 @@ public class Hero extends AnimatedThing {
 
     }
 
-    public void update2(long time) {
+    public void update2(long time) //update de la position du héros
+    {
         vy=vy+ay*time/1000;
         yh=yh-vy*time;
         xh=xh+vx*(time)/10;
@@ -109,7 +117,8 @@ public class Hero extends AnimatedThing {
             yh=yh+6;
             Spritehero.setY(yh);
         }
-        if(speed==0) {
+        if(speed==0)//update de la hitbox en fonction de la vitesse de l'état de notre héros
+        {
             HitBoxH.setX(30 + Spritehero.getX());
             HitBoxH.setY(Spritehero.getY());
             HitBoxH.setHeight(110);
