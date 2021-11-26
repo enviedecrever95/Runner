@@ -19,6 +19,7 @@ public class Camera {
 
     public Camera(double x, double y, Hero hero){
         this.hero1=hero;
+        //puisque la caméra suit notre heros on doit ajouté un heros au constructeur pour pouvoir lié les deux
         this.x= x;
         this.y=y;
 
@@ -39,9 +40,12 @@ public class Camera {
     }
     public void update(long time) {
 
-       // acx= k *(hero1.Spritehero.getX()-this.x)-f*vcx;
-       // vcx=vcx+acx*(time);
-        x=hero1.getX();
+       /* acx= k *(hero1.getX()-this.x)-f*vcx;
+        vcx=vcx+acx*(time);
+        x= x+ vcx*(time);*/
+
+        x= hero1.getX();
+    //j'ai préférer ne pas implémenter les equations du ressort en gardant une caméra fixé sur le héros mais on peut retouver les équations ci-dessus
 
     }
 }

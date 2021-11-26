@@ -142,6 +142,7 @@ public class GameScene extends Scene {
                                         //hello
                                         System.out.println("bakana");}
                                     Hit=false;
+
                                  }
                              }
                          }
